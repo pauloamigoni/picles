@@ -6,12 +6,12 @@ export class ShelterController {
   @Get()
   getShelterDetails(): GetShelterDetailsUseCaseOutput {
     return new GetShelterDetailsUseCaseOutput({
-        shelterName: 'Luz dos Bichos',
-        shelterEmail: 'luzdb@gmail.com',
-        shelterPhone: '19992250066',
-        shelterWhatsApp: '19992250066',
-        updatedAt: new Date(),
-        createdAt: new Date()
-    })
+      shelterName: 'Luz dos Bichos',
+      shelterEmail: 'luzdb@gmail.com',
+      shelterPhone: '19992250066',
+      shelterWhatsApp: '19992250066',
+      updatedAt: new Date(),
+      createdAt: new Date(),
+    });
   }
 }
