@@ -1,17 +1,18 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Inject, Post } from '@nestjs/common';
 import GetShelterDetailsUseCaseOutput from './usecases/dtos/get.shelter.details.usecase.output';
+import { IUseCase } from 'src/domain/iusecase.interface';
+import ShelterTokens from './shelter.tokens';
 
 @Controller('shelter')
 export class ShelterController {
+  @Inject(ShelterTokens.getShelterDetailsUseCase)
+  private readonly getShelterDetailsUseCase: IUseCase<
+    null,
+    GetShelterDetailsUseCaseOutput
+  >;
+
   @Get()
-  getShelterDetails(): GetShelterDetailsUseCaseOutput {
-    return new GetShelterDetailsUseCaseOutput({
-      shelterName: 'Luz dos Bichos',
-      shelterEmail: 'luzdb@gmail.com',
-      shelterPhone: '19992250066',
-      shelterWhatsApp: '19992250066',
-      updatedAt: new Date(),
-      createdAt: new Date(),
-    });
+  async getShelterDetails(): Promise<GetShelterDetailsUseCaseOutput> {
+    return await this.getShelterDetailsUseCase.run(null);
   }
 }
