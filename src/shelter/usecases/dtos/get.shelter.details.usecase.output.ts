@@ -1,4 +1,4 @@
-/* eslint-disable prettier/prettier */
+
 export default class GetShelterDetailsUseCaseOutput {
     shelterName: string
     shelterWhatsApp: string
