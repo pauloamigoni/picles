@@ -1,3 +1,4 @@
 export default class PetTokens {
-    static readonly createPetUseCase: string = 'CreatePetUseCase';
+    static readonly createPetUseCase = 'CreatePetUseCase';
+    static readonly petRepository = 'PetRepository';
 }
