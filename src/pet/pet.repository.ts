@@ -12,6 +12,10 @@ export default class PetRepository implements IPetRepository {
     async create(data: Partial<Pet>): Promise<Pet> {
         return await this.petModel.create({ ...data, createdAt: new Date(), updatedAt: new Date() })
     }
+
+    async getById(id: string): Promise<Pet> {
+        return await this.petModel.findById(id)
+    }
     update(data: Partial<Pet>): Promise<void> {
         throw new Error("Not Implemented")
     }
