@@ -5,4 +5,5 @@ export default class PetTokens {
     static readonly updatePetByIdUseCase = 'updatePetByIdUseCase';
     static readonly updatePhotoPetByIdUseCase = 'updatePhotoPetByIdUseCase';
     static readonly deletePetByIdUseCase = 'deletePetByIdUseCase';
+    static readonly getPetsUseCase = 'getPetsUseCase';
 }
