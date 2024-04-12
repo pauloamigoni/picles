@@ -1,5 +1,6 @@
 import GetPetsUseCaseInput from "../dtos/get.pets.usecase.input"
 import { Pet } from "../schemas/pet.schema"
+import FindByFilterAndTotal from "../usecases/dtos/find.by.filter.and.total"
 
 export default interface IPetRepository {
     create(data: Partial<Pet>): Promise<Pet>

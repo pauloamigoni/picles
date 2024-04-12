@@ -6,6 +6,7 @@ import IPetRepository from "../interfaces/pet.repository.interface";
 import AppTokens from "src/app.token";
 import IFileService from "src/interface/file.service.interface";
 import PetTokens from "../pet.tokens";
+import PetResponse from "../dtos/pet.response";
 
 @Injectable()
 export default class GetPetsUseCase implements IUseCase<GetPetsUseCaseInput, GetPetsUseCaseOutput> {
@@ -17,8 +18,23 @@ export default class GetPetsUseCase implements IUseCase<GetPetsUseCaseInput, Get
         private readonly fileService: IFileService
 
     ) { }
-    run(input: GetPetsUseCaseInput): Promise<GetPetsUseCaseOutput> {
-        throw new Error("Method not implemented.");
-    }
+    async run(input: GetPetsUseCaseInput): Promise<GetPetsUseCaseOutput> {
+         const queryResponse = await this.petRepository.findByFilter(input)
+         const petResponseList: PetResponse[] = [];
+         for (const currentPet of queryResponse.items) {
+            if(currentPet.photo){
+                const photoInBase64 = await this.fileService.readFile(currentPet.photo);
+                currentPet.photo = photoInBase64.toString("base64");
+            }
+            petResponseList.push(PetResponse.fromPet(currentPet));
+             
+         }
+         const totalPages= Math.ceil(queryResponse.total / input.itemsPerPage);
+         return new GetPetsUseCaseOutput({
+            items: petResponseList,
+            currentPage: input.page,
+            totalPages: totalPages
+         });
+        }
 
  }
