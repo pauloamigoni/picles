@@ -45,7 +45,7 @@ export default class PetRepository implements IPetRepository {
         const FIRST_PAGE = 1;
         const skip = FIRST_PAGE ? 0 : input.itemsPerPage * (input.page - 1);
 
-        let query = this.find();
+        let query = this.petModel.find().lean();
 
         if(input.type){
             query = query.find({type: input.type})
