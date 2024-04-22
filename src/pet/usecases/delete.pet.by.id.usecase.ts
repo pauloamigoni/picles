@@ -9,7 +9,7 @@ import { Pet } from "../schemas/pet.schema";
 
 @Injectable()
 export default class DeletePetByIdUseCase implements IUseCase<DeletePetByIdUseCaseInput, DeletePetByIdUseCaseOutput> {
-
+    
     constructor(
         @Inject(PetTokens.petRepository)
         private readonly petRepository: IPetRepository
@@ -18,7 +18,7 @@ export default class DeletePetByIdUseCase implements IUseCase<DeletePetByIdUseCa
     async run(input: DeletePetByIdUseCaseInput): Promise<DeletePetByIdUseCaseOutput> {
         const pet = await this.getPetById(input.id)
 
-        if (!pet) {
+        if(!pet) {
             throw new PetNotFoundError()
         }
 

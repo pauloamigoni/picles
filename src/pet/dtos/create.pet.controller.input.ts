@@ -1,25 +1,30 @@
-import { IsNotEmpty, IsString, MaxLength } from "class-validator"
+import { ApiProperty } from "@nestjs/swagger";
+import { IsString, IsNotEmpty, MaxLength } from "class-validator";
 
 export default class CreatePetControllerInput {
     @IsString()
     @IsNotEmpty()
-    name: string
-
+    @ApiProperty({ description: 'Nome do Pet' })
+    name: string;
+  
     @IsString()
     @IsNotEmpty()
-    type: string
-
+    @ApiProperty({ description: 'Tipo do Pet' })
+    type: string;
+  
     @IsString()
     @IsNotEmpty()
-    size: string
-
+    @ApiProperty({ description: 'Tamanho do Pet' })
+    size: string;
+  
     @IsString()
     @IsNotEmpty()
-    gender: string
-
+    @ApiProperty({ description: 'Gênero do Pet' })
+    gender: string;
+  
     @IsString()
     @IsNotEmpty()
     @MaxLength(1024)
-    bio: string
-  
+    @ApiProperty({ description: 'Biografia do Pet', maximum: 1024 })
+    bio: string;
 }

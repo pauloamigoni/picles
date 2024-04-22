@@ -9,7 +9,7 @@ import GetPetByIdUseCase from './usecases/get.pet.by.id.usecase';
 import UpdatePetByIdUseCase from './usecases/update.pet.by.id.usecase';
 import DeletePetByIdUseCase from './usecases/delete.pet.by.id.usecase';
 import UpdatePetPhotoByIdUseCase from './usecases/update.pet.photo.by.id.usecase';
-import AppTokens from 'src/app.token';
+import AppTokens from 'src/app.tokens';
 import FileService from 'src/file.service';
 import GetPetsUseCase from './usecases/get.pets.usecase';
 
@@ -34,21 +34,21 @@ import GetPetsUseCase from './usecases/get.pets.usecase';
       useClass: DeletePetByIdUseCase
     },
     {
-      provide: PetTokens.petRepository,
-      useClass: PetRepository
-    },
-    {
-      provide: PetTokens.updatePhotoPetByIdUseCase,
+      provide: PetTokens.updatePetPhotoByIdUseCase,
       useClass: UpdatePetPhotoByIdUseCase
-    },
-    {
-      provide: AppTokens.fileService,
-      useClass: FileService
     },
     {
       provide: PetTokens.getPetsUseCase,
       useClass: GetPetsUseCase
+    },
+    {
+      provide: PetTokens.petRepository,
+      useClass: PetRepository
+    },
+    {
+      provide: AppTokens.fileService,
+      useClass: FileService
     }
   ]
 })
-export class PetModule { }
+export class PetModule {}

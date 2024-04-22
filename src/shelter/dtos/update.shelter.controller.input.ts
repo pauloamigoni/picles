@@ -1,25 +1,26 @@
-import { IsEmail, IsNotEmpty, IsNumberString, IsString, Length, NotContains } from "class-validator"
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsNumberString,
+  IsString,
+  Length,
+} from 'class-validator';
 
 export default class UpdateShelterControllerInput {
-
   @IsString()
   @IsNotEmpty()
-  @NotContains(" ")
-  name: string
-  @IsString()
-  @Length(10,11)
+  name: string;
   @IsNotEmpty()
-  whatsapp: string
+  @IsString()
+  @Length(10, 11)
+  whatsapp: string;
   @IsString()
   @IsNumberString()
+  @Length(10, 11)
   @IsNotEmpty()
-  phone: string
+  phone: string;
   @IsString()
   @IsEmail()
   @IsNotEmpty()
-  email: string
+  email: string;
 }
-function IsAlphaNUmereic(): (target: UpdateShelterControllerInput, propertyKey: "name") => void {
-  throw new Error("Function not implemented.")
-}
-

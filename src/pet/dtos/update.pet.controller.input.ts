@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, MaxLength } from "class-validator"
+import { IsString, IsNotEmpty, MaxLength } from "class-validator";
 
 export default class UpdatePetControllerInput {
     @IsString()
@@ -15,11 +15,10 @@ export default class UpdatePetControllerInput {
 
     @IsString()
     @IsNotEmpty()
-    gender: string
+    gender: string;
 
     @IsString()
     @IsNotEmpty()
     @MaxLength(1024)
     bio: string;
 }
-

@@ -1,7 +1,7 @@
-import { CustomError } from "./custo.error";
+import { CustomError } from './custom.error';
 
-export default class PetNotFoundError extends CustomError{
-    constructor() {
-        super("Pet not found", "0001");
-    }
+export default class PetNotFoundError extends CustomError {
+  constructor() {
+    super('Pet Not Found', '0001');
+  }
 }

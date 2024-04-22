@@ -4,7 +4,9 @@ export default class CreatePetUseCaseInput {
     size: string;
     gender: string;
     bio: string;
-    constructor(data: Partial<CreatePetUseCaseInput>){
-        Object.assign(this, data)
+  
+    constructor(data: Partial<CreatePetUseCaseInput>) {
+      Object.assign(this, data);
     }
-}
+  }
+  

@@ -11,12 +11,13 @@ import UpdatePetByIdUseCaseInput from './usecases/dtos/update.pet.by.id.usecase.
 import UpdatePetByIdUseCaseOutput from './usecases/dtos/update.pet.by.id.usecase.output';
 import DeletePetByIdUseCaseInput from './usecases/dtos/delete.pet.by.id.usecase.input';
 import DeletePetByIdUseCaseOutput from './usecases/dtos/delete.pet.by.id.usecase.output';
-import { FileInterceptor } from '@nestjs/platform-express';
 import multerConfig from 'src/config/multer.config';
+import { FileInterceptor } from '@nestjs/platform-express';
 import UpdatePetPhotoByIdUseCaseInput from './usecases/dtos/update.pet.photo.by.id.usecase.input';
 import UpdatePetPhotoByIdUseCaseOutput from './usecases/dtos/update.pet.photo.by.id.usecase.output';
-import GetPetsUseCaseInput from './dtos/get.pets.usecase.input';
-import GetPetsUseCaseOutput from './dtos/get.pets.usecase.output';
+import GetPetsUseCaseInput from './usecases/dtos/get.pets.usecase.input';
+import GetPetsUseCaseOutput from './usecases/dtos/get.pets.usecase.output';
+import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('pet')
 export class PetController {
@@ -33,40 +34,38 @@ export class PetController {
     @Inject(PetTokens.deletePetByIdUseCase)
     private readonly deletePetByIdUseCase: IUseCase<DeletePetByIdUseCaseInput, DeletePetByIdUseCaseOutput>
 
-    @Inject(PetTokens.updatePhotoPetByIdUseCase)
-    private readonly updatePhotoPetByIdUseCase: IUseCase<UpdatePetPhotoByIdUseCaseInput, UpdatePetPhotoByIdUseCaseOutput>
+    @Inject(PetTokens.updatePetPhotoByIdUseCase)
+    private readonly updatePetPhotoByIdUseCase: IUseCase<UpdatePetPhotoByIdUseCaseInput, UpdatePetPhotoByIdUseCaseOutput>
 
     @Inject(PetTokens.getPetsUseCase)
     private readonly getPetsUseCase: IUseCase<GetPetsUseCaseInput, GetPetsUseCaseOutput>
 
-
-
-
     @Post()
+    @ApiBody({ type: [CreatePetControllerInput] })
+    @ApiResponse({ type: [CreatePetUseCaseOutput] })
+    @ApiOperation({ description: 'Creates a Pet' })
     async createPet(@Body() input: CreatePetControllerInput): Promise<CreatePetUseCaseOutput> {
         const useCaseInput = new CreatePetUseCaseInput({ ...input })
         return await this.createPetUseCase.run(useCaseInput)
     }
 
     @Get()
-    async getPets(      
+    async getPets(
         @Query('type') type?: string,
         @Query('size') size?: string,
         @Query('gender') gender?: string,
         @Query('page') page?: string,
-        @Query('itemsPerPage') itemsPerPage?: string
-    ): Promise<GetPetsUseCaseOutput> {
+        @Query('itemsPerPage') itemsPerPage?: string,
+    ): Promise<GetPetsUseCaseOutput>{
         const FIRST_PAGE = 1
-        const DEFAULT_ITEMS_PER_PAGE = 10
-
+        const DEFAULT_ITENS_PER_PAGE = 10
         const useCaseInput = new GetPetsUseCaseInput({
             type: !!type ? type : null,
             size: !!size ? size : null,
             gender: !!gender ? gender : null,
-            page: page ? parseInt(page) : FIRST_PAGE,
-            itemsPerPage: itemsPerPage ? parseInt(itemsPerPage) : DEFAULT_ITEMS_PER_PAGE
+            page: !!page ? parseInt(page) : FIRST_PAGE,
+            itemsPerPage: !!itemsPerPage ? parseInt(itemsPerPage) : DEFAULT_ITENS_PER_PAGE
         })
-
         return await this.getPetsUseCase.run(useCaseInput)
     }
 
@@ -104,22 +103,23 @@ export class PetController {
         }
     }
 
-    @Patch(':id/photo')
+    @Put(':id/photo')
     @UseInterceptors(FileInterceptor('photo', multerConfig))
     async updatePhoto(
         @UploadedFile() photo: Express.Multer.File,
-        @Param('id') id: string
-    ): Promise<UpdatePetPhotoByIdUseCaseOutput> {  
+        @Param('id') id: string,
+    ): Promise<UpdatePetPhotoByIdUseCaseOutput>{
         try {
             const useCaseInput = new UpdatePetPhotoByIdUseCaseInput({
                 id,
                 photoPath: photo.path
             })
-            return await this.updatePhotoPetByIdUseCase.run(useCaseInput)
+            return await this.updatePetPhotoByIdUseCase.run(useCaseInput)
         } catch (error) {
             throw new BadRequestException(JSON.parse(error.message))
-        }    
-     
+        }
     }
+
+
 
 }
